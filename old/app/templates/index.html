@@ -1,0 +1,106 @@
+{# templates/index.html #}
+{% extends "base.html" %}
+{% block content %}
+    <br>
+    <h1> Inference </h1>
+    <form action="/predict" method="post" id="inference_post">
+        <select name="model_name", form="inference_post">
+            {% for model in models %}
+                <option value="{{ model.model_name }}" SELECTED>{{ model.model_name }}</option>
+            {% endfor %}
+        </select>
+
+
+        <select name="fn_input" form="inference_post">
+            {% for dataset in datasets %}
+                <option value="{{ dataset.fn }}" SELECTED>{{ dataset.fn }}</option>
+            {% endfor %}
+        </select>
+
+        <label for="fn_input">fn_output</label>
+        <input type="text" id="fn_output" name="fn_output"><br><br>
+        <input type="submit" value="Predict">
+    </form>
+
+    <div class="row">
+        <div class="col">
+            <h1> List of datasets </h1>
+            <table class="table table-striped table-hover">
+                <tr>
+                    <th> dataset_name </th>
+                    <th> fn </th>
+                    <th> delete </th>
+                </tr>
+
+                <form action="/add_dataset" method="post" enctype="multipart/form-data">
+                    <tr class="table-success">
+                        <th>
+                            <input type="text" name="fn" value="text default">
+
+                        </th>
+                        <th>
+                            <input type="file" name="data">
+
+                        </th>
+                        <th>
+                            <button type="submit">Add</button>
+
+                        </th>
+                    </tr>
+                </form>
+
+
+                <tr class="table-primary">
+                    <th> <a href="update_datasets/"> Upload all </a></th>
+                    <th></th>
+                    <th></th>
+                </tr>
+
+                {% for dataset in datasets %}
+                    <tr>
+                        <th> {{ dataset.name }} </th>
+                        <th> <a href="dataset/?file_id={{dataset.file_id}}">{{ dataset.fn }}</a> </th>
+                        <th><a href="delete_dataset/?file_id={{dataset.file_id}}">delete</a></th>
+                    </tr>
+                {% endfor %}
+            </table>
+        </div>
+        <div class="col">
+            <h1> List of models </h1>
+            <table class="table table-striped table-hover">
+                <tr>
+                    <th> model_name </th>
+                    <th> delete </th>
+                </tr>
+
+                <form action="/add_model" method="get">
+                    <tr class="table-success">
+                        <th>
+                            <select name="model_name">
+                                {% for model_name in model_list %}
+                                    <option value="{{model_name}}" SELECTED>{{ model_name }}</option>
+                                {% endfor %}
+
+                        </th>
+                        <th>
+                            <button type="submit">add model</button>
+
+                        </th>
+                    </tr>
+                </form>
+
+                <!--          <tr  lass="table-success">
+                            <th></th>
+                            <th> <a href="add_model/">Add model </a></th>
+                         </tr> --> -->
+                {% for model in models %}
+                    <tr>
+                        <th> <a href="models/?model_id={{model.model_id}}">{{ model.model_name }}</a> </th>
+                        <th> <a href="delete_model/?model_name={{model.model_id}}">delete</a> </th>
+                    </tr>
+                {% endfor %}
+            </table>
+        </div>
+    </div>
+    <url>
+{% endblock content %}

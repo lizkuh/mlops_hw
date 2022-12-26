@@ -1,0 +1,35 @@
+[
+  {
+    "model_type": "RandomForestClassifier",
+    "fit_params_json": {
+      "n_estimators": "int",
+      "max_depth": "int",
+      "random_state": "int",
+      "min_samples_leaf": "int",
+      "learning_rate": "int"
+    },
+    "python_library_path": "sklearn.ensemble.RandomForestClassifier"
+  },
+  {
+    "model_type": "LogisticRegression",
+    "fit_params_json": {
+      "n_estimators": "int",
+      "max_depth": "int",
+      "random_state": "int",
+      "min_samples_leaf": "int",
+      "learning_rate": "int"
+    },
+    "python_library_path": "sklearn.linear_model.LogisticRegression"
+  },
+  {
+    "model_type": "GradientBoostingClassifier",
+    "fit_params_json": {
+      "penalty": "str",
+      "max_depth": "int",
+      "random_state": "int",
+      "min_samples_leaf": "int"
+    },
+    "python_library_path": "sklearn.ensemble.GradientBoostingClassifier"
+  }
+]
+

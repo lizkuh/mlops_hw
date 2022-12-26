@@ -1,0 +1,63 @@
+{# templates/index.html #}
+{% extends "base.html" %}
+{% block content %}
+<h1> {{model_name}} </h1>
+<h5> ({{model_config["full_name"]}}) </h5>
+<table class="table table-striped table-hover">
+   <form action="/fit" method="post" id="fit_post" enctype="application/json">
+      <tr>
+         <th>
+            <label for="model_type">model_type}</label>
+         </th>
+         <th>
+            <input type="text"  name="model_type", value="{{model_config["full_name"]}}" readonly>
+         </th>
+      </tr>
+      <tr>
+         <th>
+            <label for="model_name">model_name</label>
+         </th>
+         <th>
+            <input type="text" name="model_name", value="test">
+         </th>
+      </tr>
+      <tr>
+         <th>
+            <label for="fn_train">fn_train</label>
+         </th>
+         <th>
+            <select name="fn_train" form="fit_post">
+               {% for dataset in datasets %}
+               <option value="{{ dataset.fn }}" SELECTED>{{ dataset.fn }}</option>
+               {% endfor %}
+            </select>
+         </th>
+      </tr>
+      <tr>
+         <th>
+            <label for="column_target">column_target</label>
+         </th>
+         <th>
+            <input type="text" name="column_target" value="y">
+         </th>
+      </tr>
+      {% for param_name, param_value in model_config["init"].items() %}
+      <tr>
+         <th>
+            <label for="init_{{param_name}}">{{param_name}}</label>
+         </th>
+         <th>
+            <input type="text" name="init_{{param_name}}" value="{{param_value}}">
+         </th>
+      </tr>
+      {% endfor %}
+      <tr>
+         <th>
+            <input type="submit" value="Fit" class="btn btn-primary" >
+         </th>
+      </tr>
+   </form>
+</table>
+<h1> Documentation </h1>
+<plaintext> {{model_config["doc"]}} </plaintext>
+{% endblock content %}
