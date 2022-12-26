@@ -94,7 +94,7 @@ Request-ах
 2) model_instance 
    обученные модели
 
-ORM назодится в database/models.py
+ORM находится в database/models.py
 ````
 
 #### Docker
