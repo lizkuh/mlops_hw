@@ -80,33 +80,24 @@ restx или аналога
 • [5 баллов] Есть CI Pipeline, который запускается при Merge
 Request-ах
 
-# Docker commands
+# Docker
+
 Создать образ docker
 ~
 sudo docker build . -t mlops_hw
 ~
 
-Запустить докер образ
+
+Запустить все (docker compose)
 ~
-sudo docker run -it --rm -v docker_temp:/app/docker_temp -p 8888:8888 -p 8080:8080 --name=fastapi_microservice mlops_hw
-
-
-
-Запустить образ docker c postgress
-~
-sudo docker run -it --rm -v docker_temp:/app/docker_temp --name=postgres -e POSTGRES_PASSWORD=password postgres
-
+docker compose -f docker_compose.yml up
 ~
 
-Настроить для них общую сеть
-~
-docker network connect somenet fastapi_microservice
-docker network connect somenet postgres
-~
-# # Build docker
-# sudo docker build . -t mlops_hw
+# Тесты
 
-# # Run image
-# sudo docker run -it mlops_hw
+Проверить что тесты работают
+~
+docker exec -it fastapi_microservice bash
+pytest tests.py
+~
 
-# # Send image to docker hub

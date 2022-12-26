@@ -10,31 +10,24 @@ services:
     
     restart: "always"
 
-    # ports:
-    # - "0.0.0.0:5432:5432"
-
-
-    # volumes:
-    #   - ./pgsql/models/initdb.sh:/docker-entrypoint-initdb.d/initdb.sh
-    #   - ./pgdata/data:/var/lib/postgresql/data
-
-    # logging:
-    #   driver: none
-
+    volumes:
+      - ./db_data:/var/lib/postgresql/data
+      - ./database/create_database.sql:/docker-entrypoint-initdb.d/create_databases.sql
+  
   api:
     container_name: fastapi_microservice
 
     build:
       context: .
       dockerfile: Dockerfile
-
+    volumes:
+      - ./:/app/
+    
     restart: "always"
-
-    # volumes:
-    # - ./migrations:/src/migrations
 
     ports:
       - "0.0.0.0:8080:8080"
+      - "0.0.0.0:8888:8888"
 
 
     depends_on:
@@ -46,4 +39,5 @@ services:
       postgress_host: postgres
       postgress_password: password
       postgress_user: postgres
-      postgress_db: postgres
+      postgress_db: model_db
+      dataset_test: database/data.csv

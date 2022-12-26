@@ -1,10 +1,10 @@
-from sqlalchemy import create_engine
-from sqlalchemy.engine.base import Engine
-from sqlalchemy_utils import database_exists, create_database
-
-from sqlalchemy.orm import declarative_base, Session, sessionmaker
-from sqlalchemy import Column, Integer, String, TypeDecorator
+from sqlalchemy.orm import declarative_base
+from sqlalchemy import Column, String, TypeDecorator
 import pandas as pd
+import json
+from typing import Dict, Any, List
+import pickle
+from io import BytesIO
 
 class HexByteString(TypeDecorator):
     """  
@@ -20,12 +20,6 @@ class HexByteString(TypeDecorator):
 
     def process_result_value(self, value, dialect):
         return bytes.fromhex(value) if value else None
-
-import json
-from typing import Dict, Any, List
-# from functools import lru_cache
-import pickle
-from io import BytesIO
 
 
 Base = declarative_base()
@@ -79,10 +73,11 @@ class ModelInstance(Base):
                 "target_column": self.target_column
                }
     
-    def _get_features(self):
-        open("xyu.txt", 'w+').write(self.features)
+
+    def _get_features(self) -> List[str]:
         return json.loads(self.features)
     
+
     def fit(self, 
             data: pd.DataFrame, 
             target_column: str = 'y'
@@ -120,6 +115,9 @@ class ModelInstance(Base):
     
     @classmethod
     def _model_to_buff(cls, model_python) -> bytes:
+        """
+            python_model -> binary
+        """
         buffer = BytesIO()
         pickle.dump(model_python, buffer)
         buffer.seek(0)
@@ -127,13 +125,16 @@ class ModelInstance(Base):
     
     @classmethod
     def _buff_to_model(csl, model_bin) -> Any:
+        """
+            binary -> python_model
+        """
         model_python = pickle.loads(model_bin)
         return model_python
 
     def _get_model(self) -> Any:
+        """
+            get model from bytes that handles at db
+        """
         return ModelInstance._buff_to_model(self.model_bin)
-    
 
-    if __name__ == "__main__":
-        pass
-        #ToDo: create database if those code run at first time
+
