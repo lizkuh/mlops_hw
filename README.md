@@ -1,31 +1,32 @@
 # mlops_hw (hw1, hw2, hw3)
-### Домашнее задание 1
 ### Кухарева Лиза
 
 
 ### Описание
+````md
 Что сделала
 
         Дз1:
-        + Dсе работает, провела серьзеный рефакторигн всего
-        + Swagger: http://localhost:8080/redoc
-        + Переделать requirements.txt (взять другой докер образ)
+        + Все работает, провела серьезный рефакторинг (старый код в папке old)
+        + Swagger подтягивает все красиво из docstring:
+            http://localhost:8080/redoc
+        + Передалала на requirements.txt и взяла другой докер изначалный докер образ
 
         Дз2:
-        + Работа с базой postgress и ORM подо
+        + Сделала абота с базой postgress и ORM подо
         + Docker для микросервиса
         + Сделать docker compose
           docker compose -f docker_compose.yml up
-        - Залить в dockerhub
+        + Залила все в dockerhub
 
         Дз3:
         +  Тесты
-       -+  Более красивое оформления  
         -  Настроить CI/CD
 
-        - Дописать ReadMe
-
+        + Переписала ReadMe
+````
 #### Что надо было сделать
+````md
 Дз 1 (12)
 Реализовать API (REST либо процедуры gRPC), которое умеет:
 1. Обучать ML-модель с возможностью настройки
@@ -80,24 +81,46 @@ restx или аналога
 • [5 баллов] Есть CI Pipeline, который запускается при Merge
 Request-ах
 
-# Docker
+````
+
+#### ORM
+
+````md
+База  model_db
+
+Таблицы:
+
+1) model_signature
+   правила работы с типами моделей и какие могут быть входные переменные
+2) model_instance 
+   обученные модели
+
+ORM назодится в database/models.py
+````
+
+#### Docker
 
 Создать образ docker
-~
+```
 sudo docker build . -t mlops_hw
-~
+```
 
 
 Запустить все (docker compose)
-~
+```
 docker compose -f docker_compose.yml up
-~
+```
 
-# Тесты
+Образ в dockerhub
+```
+https://hub.docker.com/repository/docker/lizkuh/lizkuh_mlops_hw
+```
+
+#### Тесты
 
 Проверить что тесты работают
-~
+
+```
 docker exec -it fastapi_microservice bash
 pytest tests.py
-~
-
+```
