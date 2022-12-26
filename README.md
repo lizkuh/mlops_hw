@@ -9,17 +9,19 @@
         Дз1:
         + Dсе работает, провела серьзеный рефакторигн всего
         + Swagger: http://localhost:8080/redoc
-        - Переделать requirements.txt (взять другой докер образ)
+        + Переделать requirements.txt (взять другой докер образ)
 
         Дз2:
         + Работа с базой postgress и ORM подо
         + Docker для микросервиса
-        - Сделать docker compose и залить в dockerhub
+        + Сделать docker compose
+          docker compose -f docker_compose.yml up
+        - Залить в dockerhub
 
         Дз3:
-        + Есть тесты (но не в правильном формате)
-        - Оформить из в pytest 
-        - Настроить CI/CD
+        +  Тесты
+       -+  Более красивое оформления  
+        -  Настроить CI/CD
 
         - Дописать ReadMe
 

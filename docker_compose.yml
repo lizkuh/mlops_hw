@@ -1,0 +1,49 @@
+version: '3.7'
+services:
+
+  postgres:
+    image: postgres
+    container_name: postgres
+
+    environment:
+      POSTGRES_PASSWORD: password 
+    
+    restart: "always"
+
+    # ports:
+    # - "0.0.0.0:5432:5432"
+
+
+    # volumes:
+    #   - ./pgsql/models/initdb.sh:/docker-entrypoint-initdb.d/initdb.sh
+    #   - ./pgdata/data:/var/lib/postgresql/data
+
+    # logging:
+    #   driver: none
+
+  api:
+    container_name: fastapi_microservice
+
+    build:
+      context: .
+      dockerfile: Dockerfile
+
+    restart: "always"
+
+    # volumes:
+    # - ./migrations:/src/migrations
+
+    ports:
+      - "0.0.0.0:8080:8080"
+
+
+    depends_on:
+      - "postgres"
+
+    environment:
+      fastapi_host: 0.0.0.0
+      fastapi_port: 8080
+      postgress_host: postgres
+      postgress_password: password
+      postgress_user: postgres
+      postgress_db: postgres

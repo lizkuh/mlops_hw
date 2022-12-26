@@ -193,8 +193,8 @@ def get_model_instances(session: Session = Depends(get_db)) -> List[Dict[Any, An
 
 if __name__ == "__main__":
     # ToDo: delete 
-    fastapi_host = os.environ.get("fastapi_host", "0.0.0.0")
-    fastapi_port = os.environ.get("fastapi_port", "8000")
+    fastapi_host = os.environ.get("fastapi_host")
+    fastapi_port = os.environ.get("fastapi_port")
 
 
     uvicorn.run(app, host = fastapi_host, port = fastapi_port)

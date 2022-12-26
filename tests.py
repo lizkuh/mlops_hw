@@ -8,7 +8,7 @@ fastapi_host = os.environ.get("fastapi_host", "0.0.0.0")
 fastapi_port = os.environ.get("fastapi_port", "8000")
 dataset_test = os.environ.get("dataset_test", "database/data.csv")
 input_data = pd.read_csv(dataset_test).to_json()
-host =  f"http://{fastapi_host}:{fastapi_port}}"
+host =  f"http://{fastapi_host}:{fastapi_port}"
 
 def test_get_model_types():
     """
@@ -70,8 +70,9 @@ def test_predict_model():
             "input_data_json": input_data,
            }
 
-    resp = requests.post(url, params = data)
-    return resp == ([0] * 50) + ( [1] * 50 ) + ( [2] * 50 )
+    resp = requests.post(url, params = data).json()
+
+    assert resp == ([0] * 50) + ( [1] * 50 ) + ( [2] * 50 )
 
 def test_delete_model():
     url = f"{host}/delete_model"
