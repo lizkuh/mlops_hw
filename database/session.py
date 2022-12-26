@@ -36,8 +36,7 @@ def init_db(engine, fn_json = ".model_signature.json"):
         First inisialization of database at first run
     """
     fn_json =  Path(__file__).parent / "model_signature.json"
-    print(fn_json)
-    
+        
     # This is not cool, but it is more optimal to place here
     import models
     from models import ModelSignature

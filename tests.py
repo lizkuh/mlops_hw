@@ -4,8 +4,8 @@ import json
 import pytest
 import os
 
-fastapi_host = os.environ.get("fastapi_host", "0.0.0.0")
-fastapi_port = os.environ.get("fastapi_port", "8000")
+fastapi_host = os.environ.get("fastapi_host")
+fastapi_port = os.environ.get("fastapi_port")
 dataset_test = os.environ.get("dataset_test", "database/data.csv")
 input_data = pd.read_csv(dataset_test).to_json()
 host =  f"http://{fastapi_host}:{fastapi_port}"
