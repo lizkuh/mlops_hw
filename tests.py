@@ -1,9 +1,14 @@
 import pandas as pd 
 import requests
 import json
+import pytest
+import os
 
-input_data = pd.read_csv('old/app/datasets/iris/data.csv').to_json()
-host = "http://0.0.0.0:8080"
+fastapi_host = os.environ.get("fastapi_host", "0.0.0.0")
+fastapi_port = os.environ.get("fastapi_port", "8000")
+dataset_test = os.environ.get("dataset_test", "database/data.csv")
+input_data = pd.read_csv(dataset_test).to_json()
+host =  f"http://{fastapi_host}:{fastapi_port}}"
 
 def test_get_model_types():
     """
@@ -14,6 +19,7 @@ def test_get_model_types():
     json_etalon = json.load(open("database/model_signature.json", 'r'))
     json_host = requests.get(url).json()
     assert json_etalon == json_host
+    
 
 def test_get_model_instances():
     url = f"{host}/get_model_instances"
@@ -35,8 +41,9 @@ def test_get_model_instances():
                          }
                         ]
     assert etalon_list_model == list_of_models
-    
-def test_fit_model():
+
+@pytest.mark.parametrize("status_code", [200, 409])
+def test_fit_model(status_code):
     url = f"{host}/fit_model"
     data = {"model_type": "RandomForestClassifier",
             "model_name": "test_RF0",
@@ -46,7 +53,7 @@ def test_fit_model():
            }
 
     resp = requests.post(url, params = data)
-    return resp.text
+    assert resp.status_code == status_code
 
 def test_refit_model():
     url = f"{host}/refit_model"
@@ -55,7 +62,7 @@ def test_refit_model():
            }
 
     resp = requests.post(url, params = data)
-    return resp.text
+    assert resp.status_code == 200
 
 def test_predict_model():
     url = f"{host}/predict_model"
@@ -64,7 +71,7 @@ def test_predict_model():
            }
 
     resp = requests.post(url, params = data)
-    return resp.text
+    return resp == ([0] * 50) + ( [1] * 50 ) + ( [2] * 50 )
 
 def test_delete_model():
     url = f"{host}/delete_model"
@@ -72,20 +79,5 @@ def test_delete_model():
            }
 
     resp = requests.post(url, params = data)
-    return resp.text
+    assert resp.status_code == 200
 
-
-test_get_model_types()
-test_get_model_instances()
-
-print(test_fit_model())
-print(test_fit_model())
-
-print(test_refit_model())
-print(test_refit_model())
-
-
-print(test_predict_model())
-
-print(test_delete_model())
-print(test_delete_model())
